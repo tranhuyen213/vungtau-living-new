@@ -1,3 +1,16 @@
-const menuBtn=document.getElementById('menuBtn');const nav=document.getElementById('mainNav');if(menuBtn&&nav){menuBtn.addEventListener('click',()=>nav.classList.toggle('open'));nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('open')))}
-const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}})},{threshold:.12});document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
-const modal=document.getElementById('mapModal');const frame=document.getElementById('mapFrame');const close=document.getElementById('mapClose');function openMap(q){if(!modal||!frame)return;frame.src='https://www.google.com/maps?q='+encodeURIComponent(q)+'&output=embed';modal.classList.add('open');modal.setAttribute('aria-hidden','false')}document.querySelectorAll('.map-open').forEach(btn=>btn.addEventListener('click',()=>openMap(btn.dataset.map||'Vung Tau')));if(close){close.addEventListener('click',()=>{modal.classList.remove('open');modal.setAttribute('aria-hidden','true');frame.src=''})}if(modal){modal.addEventListener('click',e=>{if(e.target===modal){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');frame.src=''}})}
+const menuBtn=document.getElementById('menuBtn');
+const mainNav=document.getElementById('mainNav');
+if(menuBtn&&mainNav){menuBtn.addEventListener('click',()=>mainNav.classList.toggle('open'));}
+const reveals=document.querySelectorAll('.reveal');
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}})},{threshold:.12});
+reveals.forEach(el=>obs.observe(el));
+const mapModal=document.getElementById('mapModal');
+const mapFrame=document.getElementById('mapFrame');
+const mapClose=document.getElementById('mapClose');
+document.querySelectorAll('.map-open').forEach(btn=>{btn.addEventListener('click',()=>{const q=encodeURIComponent(btn.dataset.map||'Vũng Tàu');mapFrame.src=`https://www.google.com/maps?q=${q}&output=embed`;mapModal.classList.add('open');mapModal.setAttribute('aria-hidden','false');});});
+function closeMap(){if(!mapModal)return;mapModal.classList.remove('open');mapModal.setAttribute('aria-hidden','true');mapFrame.src='';}
+if(mapClose)mapClose.addEventListener('click',closeMap);
+if(mapModal)mapModal.addEventListener('click',e=>{if(e.target===mapModal)closeMap();});
+const consultClose=document.getElementById('consultClose');
+const consultBox=document.getElementById('consultBox');
+if(consultClose&&consultBox){consultClose.addEventListener('click',()=>{consultBox.style.display='none';});}
